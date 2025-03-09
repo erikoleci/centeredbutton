@@ -20,27 +20,38 @@ export default function WalletPage() {
   }, []);
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-background to-muted">
-      <Card className="w-full max-w-md mx-4 border-2">
-        <CardContent className="flex flex-col items-center gap-6 pt-6">
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
-            Phantom Wallet Integration
-          </h1>
-          
-          {hasPhantom ? (
-            <WalletButton />
-          ) : (
-            <a 
-              href="https://phantom.app/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-primary hover:underline"
-            >
-              Install Phantom Wallet
-            </a>
-          )}
-        </CardContent>
-      </Card>
+    <div className="min-h-screen w-full flex flex-col items-center justify-center bg-gradient-to-br from-violet-500/10 to-indigo-500/10 p-4">
+      <div className="animate-fade-in">
+        <h1 className="text-4xl font-bold text-center mb-8 bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text text-transparent">
+          Solana Testnet Airdrop
+        </h1>
+
+        <Card className="w-full max-w-md mx-auto backdrop-blur-sm bg-white/90 border-2 border-violet-200">
+          <CardContent className="flex flex-col items-center gap-6 pt-6">
+            <div className="text-center space-y-2 mb-4">
+              <p className="text-lg text-muted-foreground">
+                Connect your wallet to claim your airdrop
+              </p>
+              <p className="text-sm text-muted-foreground/80">
+                Testnet tokens will be sent to your wallet
+              </p>
+            </div>
+
+            {hasPhantom ? (
+              <WalletButton />
+            ) : (
+              <a 
+                href="https://phantom.app/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-violet-600 hover:text-violet-700 hover:underline transition-colors"
+              >
+                Install Phantom Wallet
+              </a>
+            )}
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }

