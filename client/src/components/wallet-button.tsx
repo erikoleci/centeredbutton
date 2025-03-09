@@ -62,6 +62,7 @@ export function WalletButton() {
         className: "bg-gradient-to-r from-violet-500 to-indigo-500 text-white border-none",
       });
     } catch (error) {
+      console.error("Claim error:", error);
       toast({
         variant: "destructive",
         title: "Claim Failed",

