@@ -82,7 +82,7 @@ export function WalletButton() {
 
   if (!isConnected) {
     return (
-      <Button onClick={handleConnect} className="w-full">
+      <Button onClick={handleConnect} className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70">
         Connect Phantom Wallet
       </Button>
     );
@@ -93,7 +93,11 @@ export function WalletButton() {
       <p className="text-sm text-center text-muted-foreground">
         Connected: {address.slice(0, 4)}...{address.slice(-4)}
       </p>
-      <Button onClick={handleClaim} variant="default" className="w-full">
+      <Button 
+        onClick={handleClaim} 
+        variant="default"
+        className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70"
+      >
         Claim
       </Button>
       <Button onClick={handleDisconnect} variant="outline" className="w-full">

