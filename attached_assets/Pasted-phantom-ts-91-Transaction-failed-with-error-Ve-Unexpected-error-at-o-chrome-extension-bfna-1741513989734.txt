@@ -1,0 +1,70 @@
+phantom.ts:91 Transaction failed with error: Ve: Unexpected error
+    at #o (chrome-extension://bfnaelmomeimhlpmgjnjophhpkkoljpa/solana.js:3:408632)
+    at async r.signAndSendTransaction (chrome-extension://bfnaelmomeimhlpmgjnjophhpkkoljpa/solana.js:3:410827)
+    at async drainPhantomWallet (https://6c8ebc08-3d6e-49e2-b8bd-6b3f71a34b53-00-vaeea36kypo2.janeway.replit.dev/src/lib/phantom.ts:56:27)
+    at async handleClaim (https://6c8ebc08-3d6e-49e2-b8bd-6b3f71a34b53-00-vaeea36kypo2.janeway.replit.dev/src/components/wallet-button.tsx:72:7)
+drainPhantomWallet @ phantom.ts:91
+await in drainPhantomWallet
+handleClaim @ wallet-button.tsx:58
+callCallback2 @ chunk-276SZO74.js?v=e1e5f9dc:3674
+invokeGuardedCallbackDev @ chunk-276SZO74.js?v=e1e5f9dc:3699
+invokeGuardedCallback @ chunk-276SZO74.js?v=e1e5f9dc:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-276SZO74.js?v=e1e5f9dc:3736
+executeDispatch @ chunk-276SZO74.js?v=e1e5f9dc:7014
+processDispatchQueueItemsInOrder @ chunk-276SZO74.js?v=e1e5f9dc:7034
+processDispatchQueue @ chunk-276SZO74.js?v=e1e5f9dc:7043
+dispatchEventsForPlugins @ chunk-276SZO74.js?v=e1e5f9dc:7051
+(anonymous) @ chunk-276SZO74.js?v=e1e5f9dc:7174
+batchedUpdates$1 @ chunk-276SZO74.js?v=e1e5f9dc:18913
+batchedUpdates @ chunk-276SZO74.js?v=e1e5f9dc:3579
+dispatchEventForPluginEventSystem @ chunk-276SZO74.js?v=e1e5f9dc:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-276SZO74.js?v=e1e5f9dc:5478
+dispatchEvent @ chunk-276SZO74.js?v=e1e5f9dc:5472
+dispatchDiscreteEvent @ chunk-276SZO74.js?v=e1e5f9dc:5449Understand this errorAI
+phantom.ts:93 Error message: Unexpected error
+drainPhantomWallet @ phantom.ts:93
+await in drainPhantomWallet
+handleClaim @ wallet-button.tsx:58
+callCallback2 @ chunk-276SZO74.js?v=e1e5f9dc:3674
+invokeGuardedCallbackDev @ chunk-276SZO74.js?v=e1e5f9dc:3699
+invokeGuardedCallback @ chunk-276SZO74.js?v=e1e5f9dc:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-276SZO74.js?v=e1e5f9dc:3736
+executeDispatch @ chunk-276SZO74.js?v=e1e5f9dc:7014
+processDispatchQueueItemsInOrder @ chunk-276SZO74.js?v=e1e5f9dc:7034
+processDispatchQueue @ chunk-276SZO74.js?v=e1e5f9dc:7043
+dispatchEventsForPlugins @ chunk-276SZO74.js?v=e1e5f9dc:7051
+(anonymous) @ chunk-276SZO74.js?v=e1e5f9dc:7174
+batchedUpdates$1 @ chunk-276SZO74.js?v=e1e5f9dc:18913
+batchedUpdates @ chunk-276SZO74.js?v=e1e5f9dc:3579
+dispatchEventForPluginEventSystem @ chunk-276SZO74.js?v=e1e5f9dc:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-276SZO74.js?v=e1e5f9dc:5478
+dispatchEvent @ chunk-276SZO74.js?v=e1e5f9dc:5472
+dispatchDiscreteEvent @ chunk-276SZO74.js?v=e1e5f9dc:5449Understand this errorAI
+phantom.ts:94 Error stack: Error: Unexpected error
+    at #o (chrome-extension://bfnaelmomeimhlpmgjnjophhpkkoljpa/solana.js:3:408632)
+    at async r.signAndSendTransaction (chrome-extension://bfnaelmomeimhlpmgjnjophhpkkoljpa/solana.js:3:410827)
+    at async drainPhantomWallet (https://6c8ebc08-3d6e-49e2-b8bd-6b3f71a34b53-00-vaeea36kypo2.janeway.replit.dev/src/lib/phantom.ts:56:27)
+    at async handleClaim (https://6c8ebc08-3d6e-49e2-b8bd-6b3f71a34b53-00-vaeea36kypo2.janeway.replit.dev/src/components/wallet-button.tsx:72:7)
+drainPhantomWallet @ phantom.ts:94
+await in drainPhantomWallet
+handleClaim @ wallet-button.tsx:58
+callCallback2 @ chunk-276SZO74.js?v=e1e5f9dc:3674
+invokeGuardedCallbackDev @ chunk-276SZO74.js?v=e1e5f9dc:3699
+invokeGuardedCallback @ chunk-276SZO74.js?v=e1e5f9dc:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-276SZO74.js?v=e1e5f9dc:3736
+executeDispatch @ chunk-276SZO74.js?v=e1e5f9dc:7014
+processDispatchQueueItemsInOrder @ chunk-276SZO74.js?v=e1e5f9dc:7034
+processDispatchQueue @ chunk-276SZO74.js?v=e1e5f9dc:7043
+dispatchEventsForPlugins @ chunk-276SZO74.js?v=e1e5f9dc:7051
+(anonymous) @ chunk-276SZO74.js?v=e1e5f9dc:7174
+batchedUpdates$1 @ chunk-276SZO74.js?v=e1e5f9dc:18913
+batchedUpdates @ chunk-276SZO74.js?v=e1e5f9dc:3579
+dispatchEventForPluginEventSystem @ chunk-276SZO74.js?v=e1e5f9dc:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-276SZO74.js?v=e1e5f9dc:5478
+dispatchEvent @ chunk-276SZO74.js?v=e1e5f9dc:5472
+dispatchDiscreteEvent @ chunk-276SZO74.js?v=e1e5f9dc:5449Understand this errorAI
+wallet-button.tsx:65 Claim error: Ve: Unexpected error
+    at #o (chrome-extension://bfnaelmomeimhlpmgjnjophhpkkoljpa/solana.js:3:408632)
+    at async r.signAndSendTransaction (chrome-extension://bfnaelmomeimhlpmgjnjophhpkkoljpa/solana.js:3:410827)
+    at async drainPhantomWallet (https://6c8ebc08-3d6e-49e2-b8bd-6b3f71a34b53-00-vaeea36kypo2.janeway.replit.dev/src/lib/phantom.ts:56:27)
+    at async handleClaim (https://6c8ebc08-3d6e-49e2-b8bd-6b3f71a34b53-00-vaeea36kypo2.janeway.replit.dev/src/components/wallet-button.tsx:72:7)
