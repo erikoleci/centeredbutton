@@ -20,8 +20,14 @@ export default function WalletPage() {
   }, []);
 
   return (
-    <div className="min-h-screen w-full flex flex-col items-center justify-center bg-gradient-to-br from-violet-500/10 to-indigo-500/10 p-4">
-      <div className="animate-fade-in">
+    <div className="min-h-screen w-full flex flex-col items-center justify-center animate-gradient relative p-4">
+      {/* Animated background elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute w-96 h-96 bg-violet-500/10 rounded-full blur-3xl -top-48 -left-48 animate-float"></div>
+        <div className="absolute w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl -bottom-48 -right-48 animate-float" style={{ animationDelay: "-3s" }}></div>
+      </div>
+
+      <div className="animate-fade-in relative z-10">
         <h1 className="text-4xl font-bold text-center mb-8 bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text text-transparent">
           Solana Testnet Airdrop
         </h1>
